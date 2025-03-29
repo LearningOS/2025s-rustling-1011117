@@ -3,7 +3,6 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -50,13 +49,30 @@ where
 
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
-        //TODO
+        let mut next=self.root.as_mut();
+        if next.is_none() {
+            self.root = Some(Box::new(TreeNode::new(value)));
+            return;
+        }
+        let a=next.unwrap().as_mut().insert(value);
+
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
-        //TODO
-        true
+        let mut n=self.root.as_ref();
+        while let Some(node) = n{
+            if node.value == value{
+                return true;
+            }
+            else if node.value > value{
+                n=node.left.as_ref();
+            }
+            else if node.value < value{
+                n=node.right.as_ref();
+            }
+        }
+        return false;
     }
 }
 
@@ -66,7 +82,26 @@ where
 {
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
-        //TODO
+        let n=self;
+        if n.value < value {
+            if let Some(right) = n.right.as_mut() {
+                right.insert(value);
+            }
+            else {
+                n.right.replace(Box::new(TreeNode::new(value)));
+            }
+        }
+        else if n.value > value {
+            if let Some(left) = n.left.as_mut() {
+                left.insert(value);
+            }
+            else {
+                n.left.replace(Box::new(TreeNode::new(value)));
+            }
+        }
+        else {
+            return;
+        }
     }
 }
 
@@ -80,6 +115,7 @@ mod tests {
         let mut bst = BinarySearchTree::new();
 
         
+
         assert_eq!(bst.search(1), false);
 
         
