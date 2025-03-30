@@ -48,6 +48,7 @@ pub trait Graph {
             table.insert(node.to_string(), Vec::new());
             true
         }
+
     }
     fn add_edge(&mut self, edge: (&str, &str, i32));
     fn contains(&self, node: &str) -> bool {
